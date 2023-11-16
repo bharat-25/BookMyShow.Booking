@@ -1,11 +1,9 @@
 import { TicketBookingService } from "./ticket-booking.service";
 import { ticketBookingDto } from "./dto/ticketBooking.dto";
 import { ticketBooking } from "./schema/booking.schema";
-import { JwtService } from '@nestjs/jwt';
 export declare class TicketBookingController {
     private readonly bookingService;
-    private readonly jwtService;
-    constructor(bookingService: TicketBookingService, jwtService: JwtService);
+    constructor(bookingService: TicketBookingService);
     bookMovieTicket(req: any, bookingDto: ticketBookingDto, response: any): Promise<any>;
     getAllBookings(): Promise<ticketBooking[]>;
     getBookingById(bookingId: string): Promise<ticketBooking>;

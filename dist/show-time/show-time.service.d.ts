@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { Showtime } from './schema/showtime.schema';
+import { Showtime } from './schema/show-time.schema';
 export declare class ShowTimeService {
     private showtimeModel;
     constructor(showtimeModel: Model<Showtime>);

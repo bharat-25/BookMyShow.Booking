@@ -16,28 +16,24 @@ exports.TicketBookingController = void 0;
 const common_1 = require("@nestjs/common");
 const ticket_booking_service_1 = require("./ticket-booking.service");
 const ticketBooking_dto_1 = require("./dto/ticketBooking.dto");
-const passport_1 = require("@nestjs/passport");
-const jwt_1 = require("@nestjs/jwt");
+const auth_guard_1 = require("./guard/auth.guard");
 let TicketBookingController = class TicketBookingController {
-    constructor(bookingService, jwtService) {
+    constructor(bookingService) {
         this.bookingService = bookingService;
-        this.jwtService = jwtService;
     }
     async bookMovieTicket(req, bookingDto, response) {
         try {
-            const jwt = req.headers.authorization.replace('Bearer ', '');
             const { movieId, theaterId, movieSlot, date, totalSeatBooked } = bookingDto;
-            const json = this.jwtService.decode(jwt);
-            const userId = json.payload.payloadId;
+            const userId = req.user.payload.payloadId;
             const ratingData = await this.bookingService.bookMovieTicket(userId, movieId, theaterId, movieSlot, date, totalSeatBooked);
             return response.status(common_1.HttpStatus.OK).json({
-                message: 'Movies Ticket book Successfully.',
-                ratingData
+                message: "Movies Ticket book Successfully.",
+                ratingData,
             });
         }
         catch (error) {
             return response.status(common_1.HttpStatus.INTERNAL_SERVER_ERROR).json({
-                message: 'Error to Movies Ticket book',
+                message: "Error to Movies Ticket book",
                 error: error.message,
             });
         }
@@ -57,8 +53,8 @@ let TicketBookingController = class TicketBookingController {
 };
 exports.TicketBookingController = TicketBookingController;
 __decorate([
-    (0, common_1.Post)('bookTicket'),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
+    (0, common_1.Post)("bookTicket"),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Request)()),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Res)()),
@@ -96,7 +92,6 @@ __decorate([
 ], TicketBookingController.prototype, "deleteBooking", null);
 exports.TicketBookingController = TicketBookingController = __decorate([
     (0, common_1.Controller)("ticket-booking"),
-    __metadata("design:paramtypes", [ticket_booking_service_1.TicketBookingService,
-        jwt_1.JwtService])
+    __metadata("design:paramtypes", [ticket_booking_service_1.TicketBookingService])
 ], TicketBookingController);
 //# sourceMappingURL=ticket-booking.controller.js.map
