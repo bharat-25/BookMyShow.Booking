@@ -1,5 +1,5 @@
 import { ShowTimeService } from './show-time.service';
-import { Showtime } from './schema/showtime.schema';
+import { Showtime } from './schema/show-time.schema';
 export declare class ShowTimeController {
     private readonly showtimeService;
     constructor(showtimeService: ShowTimeService);

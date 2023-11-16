@@ -12,6 +12,7 @@ const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const ticket_booking_module_1 = require("./ticket-booking/ticket-booking.module");
 const mongoose_1 = require("@nestjs/mongoose");
+const show_time_module_1 = require("./show-time/show-time.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -20,6 +21,7 @@ exports.AppModule = AppModule = __decorate([
         imports: [
             ticket_booking_module_1.TicketBookingModule,
             mongoose_1.MongooseModule.forRoot('mongodb+srv://bharatanand:XLfrrdbmZRqs25hC@cluster0.a5sfuz8.mongodb.net/BookMyShow_ticketBooking'),
+            show_time_module_1.ShowTimeModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

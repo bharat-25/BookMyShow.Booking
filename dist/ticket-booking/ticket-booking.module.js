@@ -13,29 +13,22 @@ const booking_schema_1 = require("./schema/booking.schema");
 const ticket_booking_controller_1 = require("./ticket-booking.controller");
 const ticket_booking_service_1 = require("./ticket-booking.service");
 const jwt_1 = require("@nestjs/jwt");
-const passport_1 = require("@nestjs/passport");
-const jwt_strategy_1 = require("./jwt/jwt.strategy");
-const config_1 = require("@nestjs/config");
+const constant_1 = require("./constants/constant");
 let TicketBookingModule = class TicketBookingModule {
 };
 exports.TicketBookingModule = TicketBookingModule;
 exports.TicketBookingModule = TicketBookingModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            config_1.ConfigModule.forRoot(),
             mongoose_1.MongooseModule.forFeature([{ name: booking_schema_1.ticketBooking.name, schema: booking_schema_1.ticketBookingSchema }]),
             jwt_1.JwtModule.register({
-                secret: 'thesecretkey',
-                signOptions: {
-                    expiresIn: '1h',
-                },
-            }),
-            passport_1.PassportModule.register({
-                defaultStrategy: 'jwt',
+                global: true,
+                secret: constant_1.jwtConstants.SECRET,
+                signOptions: { expiresIn: '60s' },
             }),
         ],
         controllers: [ticket_booking_controller_1.TicketBookingController],
-        providers: [ticket_booking_service_1.TicketBookingService, jwt_strategy_1.JwtStrategy],
+        providers: [ticket_booking_service_1.TicketBookingService],
         exports: [ticket_booking_service_1.TicketBookingService]
     })
 ], TicketBookingModule);

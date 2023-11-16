@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ShowTimeController = void 0;
 const common_1 = require("@nestjs/common");
 const show_time_service_1 = require("./show-time.service");
-const showtime_schema_1 = require("./schema/showtime.schema");
+const show_time_schema_1 = require("./schema/show-time.schema");
 let ShowTimeController = class ShowTimeController {
     constructor(showtimeService) {
         this.showtimeService = showtimeService;
@@ -38,7 +38,7 @@ __decorate([
     (0, common_1.Post)('addMovieSlot'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [showtime_schema_1.Showtime]),
+    __metadata("design:paramtypes", [show_time_schema_1.Showtime]),
     __metadata("design:returntype", Promise)
 ], ShowTimeController.prototype, "addShowtime", null);
 __decorate([
@@ -46,7 +46,7 @@ __decorate([
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, showtime_schema_1.Showtime]),
+    __metadata("design:paramtypes", [String, show_time_schema_1.Showtime]),
     __metadata("design:returntype", Promise)
 ], ShowTimeController.prototype, "updateShowtime", null);
 __decorate([

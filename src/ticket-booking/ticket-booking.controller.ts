@@ -14,36 +14,43 @@ import {
 import { TicketBookingService } from "./ticket-booking.service";
 import { ticketBookingDto } from "./dto/ticketBooking.dto";
 import { ticketBooking } from "./schema/booking.schema";
-import { AuthGuard } from '@nestjs/passport';
-import { JwtService } from '@nestjs/jwt';
-
+// import { AuthGuard } from '@nestjs/passport';
+// import { JwtService } from '@nestjs/jwt';
+import { AuthGuard } from "./guard/auth.guard";
 
 @Controller("ticket-booking")
 export class TicketBookingController {
-  constructor(private readonly bookingService: TicketBookingService,
-              private readonly jwtService: JwtService) {}
+  constructor(private readonly bookingService: TicketBookingService) {}
 
-  @Post('bookTicket')
-  @UseGuards(AuthGuard('jwt'))
-  async bookMovieTicket(@Request() req,@Body() bookingDto: ticketBookingDto,@Res() response) {
-    try{
-        const jwt = req.headers.authorization.replace('Bearer ', '');
-        const { movieId,theaterId,movieSlot,date,totalSeatBooked} = bookingDto;
-        // console.log(bookingDto,jwt)
-        const json = this.jwtService.decode(jwt);
-        const userId = json.payload.payloadId
-        const ratingData =await this.bookingService.bookMovieTicket(userId,movieId,theaterId,movieSlot,date,totalSeatBooked);
-        return response.status(HttpStatus.OK).json({
-            message:'Movies Ticket book Successfully.',
-            ratingData
-        });
+  @Post("bookTicket")
+  @UseGuards(AuthGuard)
+  async bookMovieTicket(
+    @Request() req,
+    @Body() bookingDto: ticketBookingDto,
+    @Res() response
+  ) {
+    try {
+      const { movieId, theaterId, movieSlot, date, totalSeatBooked } =
+        bookingDto;
+      const userId = req.user.payload.payloadId;
+      const ratingData = await this.bookingService.bookMovieTicket(
+        userId,
+        movieId,
+        theaterId,
+        movieSlot,
+        date,
+        totalSeatBooked
+      );
+      return response.status(HttpStatus.OK).json({
+        message: "Movies Ticket book Successfully.",
+        ratingData,
+      });
+    } catch (error) {
+      return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        message: "Error to Movies Ticket book",
+        error: error.message,
+      });
     }
-       catch(error){
-        return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-            message: 'Error to Movies Ticket book',
-            error: error.message,
-          });
-       }
   }
 
   @Get()

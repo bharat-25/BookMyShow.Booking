@@ -8,21 +8,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ShowTimeModule = void 0;
 const common_1 = require("@nestjs/common");
-const mongoose_1 = require("@nestjs/mongoose");
 const show_time_service_1 = require("./show-time.service");
 const show_time_controller_1 = require("./show-time.controller");
-const showtime_schema_1 = require("./schema/showtime.schema");
+const mongoose_1 = require("@nestjs/mongoose");
+const show_time_schema_1 = require("./schema/show-time.schema");
 let ShowTimeModule = class ShowTimeModule {
 };
 exports.ShowTimeModule = ShowTimeModule;
 exports.ShowTimeModule = ShowTimeModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            mongoose_1.MongooseModule.forFeature([{ name: showtime_schema_1.Showtime.name, schema: showtime_schema_1.ShowtimeSchema }]),
+            mongoose_1.MongooseModule.forFeature([{ name: show_time_schema_1.Showtime.name, schema: show_time_schema_1.ShowtimeSchema }]),
         ],
         controllers: [show_time_controller_1.ShowTimeController],
-        providers: [show_time_service_1.ShowTimeService],
-        exports: [show_time_service_1.ShowTimeService]
+        providers: [show_time_service_1.ShowTimeService]
     })
 ], ShowTimeModule);
 //# sourceMappingURL=show-time.module.js.map
