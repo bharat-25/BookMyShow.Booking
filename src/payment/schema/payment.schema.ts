@@ -17,6 +17,9 @@ export class Payment extends Document {
   status: string;
 
   @Prop()
+  totalTicket: string;
+
+  @Prop()
   transactionType: string;
 }
 
