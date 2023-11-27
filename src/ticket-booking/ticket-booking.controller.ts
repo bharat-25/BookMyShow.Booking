@@ -17,23 +17,38 @@ import { ticketBooking } from "./schema/booking.schema";
 // import { AuthGuard } from '@nestjs/passport';
 // import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from "./guard/auth.guard";
+import { BOOKING_RESPONSE } from "./constants/constant";
+import {ApiTags,ApiBearerAuth} from '@nestjs/swagger'
+import { AuthController } from "src/auth/auth.controller";
 
 @Controller("ticket-booking")
 export class TicketBookingController {
-  constructor(private readonly bookingService: TicketBookingService) {}
+  constructor(private readonly bookingService: TicketBookingService,
+              private readonly authController: AuthController) {}
 
+  @ApiTags('Book Movie Ticket')
+  @ApiBearerAuth()
   @Post("bookTicket")
   @UseGuards(AuthGuard)
-  async bookMovieTicket(
-    @Request() req,
-    @Body() bookingDto: ticketBookingDto,
-    @Res() response
-  ) {
+  async bookMovieTicket(@Request() req,@Body() bookingDto: ticketBookingDto,@Res() response) {
+
     try {
-      const { movieId, theaterId, movieSlot, date, totalSeatBooked } =
-        bookingDto;
+      const { movieId, theaterId, movieSlot, date, totalSeatBooked } = bookingDto;
+      console.log(bookingDto)
+
       const userId = req.user.payload.payloadId;
-      const ratingData = await this.bookingService.bookMovieTicket(
+      console.log(userId)
+
+      const userEmail = req.user.payload.payloadEmail;
+        const Isverify=await this.authController.verifyUser(userEmail);
+
+        if(!Isverify){
+          return response.status(HttpStatus.OK).json({
+            message:BOOKING_RESPONSE.NOT_AUTHORIZED,
+          });
+        }
+      
+      const movieData = await this.bookingService.bookMovieTicket(
         userId,
         movieId,
         theaterId,
@@ -41,38 +56,127 @@ export class TicketBookingController {
         date,
         totalSeatBooked
       );
+      console.log("=====>",movieData)
       return response.status(HttpStatus.OK).json({
-        message: "Movies Ticket book Successfully.",
-        ratingData,
+        message: BOOKING_RESPONSE.BOOKING,
+        movieData,
       });
-    } catch (error) {
+    } 
+    catch (error) {
       return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-        message: "Error to Movies Ticket book",
+        message:BOOKING_RESPONSE.ERROR_BOOKING,
         error: error.message,
       });
     }
   }
 
+  @ApiTags('Get all Booking')
   @Get()
-  async getAllBookings(): Promise<ticketBooking[]> {
-    return this.bookingService.getAllBookings();
+  async getAllBookings(@Res() response){
+    try{
+
+      const allBooking=await this.bookingService.getAllBookings();
+      return response.status(HttpStatus.OK).json({
+        message: BOOKING_RESPONSE.GET_ALL_BOOKING,
+        allBooking,
+      });
+    }
+    catch(error){
+      return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        message:BOOKING_RESPONSE.ERROR_GET_ALL_BOOKING,
+        error: error.message,
+      });
+    }
   }
 
+  @ApiTags('Get Booking by ID')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   @Get(":id")
-  async getBookingById(@Param("id") bookingId: string): Promise<ticketBooking> {
-    return this.bookingService.getBookingById(bookingId);
-  }
+  async getBookingById(@Request() req,@Param("id") bookingId: string,@Res() response){
+    try{
 
+      const userEmail = req.user.payload.payloadEmail;
+        const Isverify=await this.authController.verifyUser(userEmail);
+
+        if(!Isverify){
+          return response.status(HttpStatus.OK).json({
+            message:BOOKING_RESPONSE.NOT_AUTHORIZED,
+          });
+        }
+
+      const getBooking=await this.bookingService.getBookingById(bookingId);
+      console.log(getBooking)
+      return response.status(HttpStatus.OK).json({
+        message: BOOKING_RESPONSE.GET_BOOKING_BY_ID,
+        getBooking,
+      });
+    }
+    catch(error){
+      return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        message:BOOKING_RESPONSE.ERROR_BOOKING_BY_ID,
+        error: error.message,
+      });
+    }
+  }
+  @ApiTags('Update Booking')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   @Patch(":id/status/:status")
-  async updateBookingStatus(
-    @Param("id") bookingId: string,
-    @Param("status") status: string
+  async updateBookingStatus(@Request() req,@Param("id") bookingId: string,@Param("status") status: string,@Res() response
   ): Promise<ticketBooking> {
-    return this.bookingService.updateBookingStatus(bookingId, status);
-  }
+    try{
+      const userEmail = req.user.payload.payloadEmail;
+        const Isverify=await this.authController.verifyUser(userEmail);
 
+        if(!Isverify){
+          return response.status(HttpStatus.OK).json({
+            message:BOOKING_RESPONSE.NOT_AUTHORIZED,
+          });
+        }
+
+      const updateBooking= this.bookingService.updateBookingStatus(bookingId, status);
+      return response.status(HttpStatus.OK).json({
+        message: BOOKING_RESPONSE.UPDATE_BOOKING,
+        updateBooking,
+      });
+    }
+  catch(error)
+  {
+    return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      message:BOOKING_RESPONSE.ERROR_UPDATE_BOOKING,
+      error: error.message,
+    });
+  }
+}
+
+  @ApiTags('Delete Booking')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   @Delete(":id")
-  async deleteBooking(@Param("id") bookingId: string): Promise<ticketBooking> {
-    return this.bookingService.deleteBooking(bookingId);
+  async deleteBooking(@Request() req,@Param("id") bookingId: string,@Res() response) {
+    try{
+      const userEmail = req.user.payload.payloadEmail;
+        const Isverify=await this.authController.verifyUser(userEmail);
+
+        if(!Isverify){
+          return response.status(HttpStatus.OK).json({
+            message:BOOKING_RESPONSE.NOT_AUTHORIZED,
+          });
+        }
+
+
+      const deleteBooking= this.bookingService.deleteBooking(bookingId);
+      return response.status(HttpStatus.OK).json({
+        message: BOOKING_RESPONSE.DELETE_BOOKING,
+        deleteBooking,
+      });
+    }
+  catch(error){
+    return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      message:BOOKING_RESPONSE.ERROR_DELETE_BOOKING,
+      error: error.message,
+    });
+  }
   }
 }

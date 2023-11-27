@@ -17,16 +17,20 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("mongoose");
 const show_time_schema_1 = require("./schema/show-time.schema");
 const mongoose_2 = require("@nestjs/mongoose");
+const redis_service_1 = require("../auth/redis/redis.service");
 let ShowTimeService = class ShowTimeService {
-    constructor(showtimeModel) {
+    constructor(showtimeModel, redisService) {
         this.showtimeModel = showtimeModel;
+        this.redisService = redisService;
     }
     async addShowtime(showtime) {
         const newShowtime = new this.showtimeModel(showtime);
         return newShowtime.save();
     }
     async updateShowtime(id, showtime) {
-        const updatedShowtime = await this.showtimeModel.findByIdAndUpdate(id, showtime, { new: true });
+        console.log(showtime.date);
+        const updatedShowtime = await this.showtimeModel.findByIdAndUpdate(id, { date: showtime.date });
+        console.log(updatedShowtime);
         return updatedShowtime;
     }
     async deleteShowtime(id) {
@@ -42,6 +46,7 @@ exports.ShowTimeService = ShowTimeService;
 exports.ShowTimeService = ShowTimeService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_2.InjectModel)(show_time_schema_1.Showtime.name)),
-    __metadata("design:paramtypes", [mongoose_1.Model])
+    __metadata("design:paramtypes", [mongoose_1.Model,
+        redis_service_1.RedisService])
 ], ShowTimeService);
 //# sourceMappingURL=show-time.service.js.map

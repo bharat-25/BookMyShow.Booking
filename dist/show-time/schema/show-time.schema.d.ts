@@ -23,7 +23,7 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Document, Schema as MongooseSchema, Types } from 'mongoose';
-export declare class Showtime extends Document {
+export declare class Showtime {
     slots: {
         slot: string;
         availableSeats: number;

@@ -22,11 +22,12 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Document, Schema as MongooseSchema } from 'mongoose';
-export declare class ticketBooking extends Document {
-    userId: string;
-    movieId: string;
-    theaterId: string;
+import { Document, Schema as MongooseSchema, Types } from 'mongoose';
+export declare class ticketBooking {
+    userId: Types.ObjectId;
+    showtimeId: Types.ObjectId;
+    movieId: Types.ObjectId;
+    theaterId: Types.ObjectId;
     movieSlot: string;
     date: string;
     totalSeatBooked: number;
@@ -35,7 +36,7 @@ export declare class ticketBooking extends Document {
     static totalSeatBooked: any;
 }
 export declare const ticketBookingSchema: MongooseSchema<ticketBooking, import("mongoose").Model<ticketBooking, any, any, any, Document<unknown, any, ticketBooking> & ticketBooking & {
-    _id: import("mongoose").Types.ObjectId;
+    _id: Types.ObjectId;
 }, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, ticketBooking, Document<unknown, {}, import("mongoose").FlatRecord<ticketBooking>> & import("mongoose").FlatRecord<ticketBooking> & {
-    _id: import("mongoose").Types.ObjectId;
+    _id: Types.ObjectId;
 }>;

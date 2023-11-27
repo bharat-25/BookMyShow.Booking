@@ -13,14 +13,20 @@ const app_service_1 = require("./app.service");
 const ticket_booking_module_1 = require("./ticket-booking/ticket-booking.module");
 const mongoose_1 = require("@nestjs/mongoose");
 const show_time_module_1 = require("./show-time/show-time.module");
+const config_1 = require("@nestjs/config");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            config_1.ConfigModule.forRoot(),
+            mongoose_1.MongooseModule.forRootAsync({
+                useFactory: () => ({
+                    uri: process.env.DB_CONNECTION_URL
+                })
+            }),
             ticket_booking_module_1.TicketBookingModule,
-            mongoose_1.MongooseModule.forRoot('mongodb+srv://bharatanand:XLfrrdbmZRqs25hC@cluster0.a5sfuz8.mongodb.net/BookMyShow_ticketBooking'),
             show_time_module_1.ShowTimeModule,
         ],
         controllers: [app_controller_1.AppController],

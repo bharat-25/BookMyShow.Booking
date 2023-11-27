@@ -1,5 +1,6 @@
+import { Types } from "mongoose";
 export declare class ticketBookingDto {
-    userId: string;
+    userId: Types.ObjectId;
     movieId: string;
     theaterId: string;
     movieSlot: string;

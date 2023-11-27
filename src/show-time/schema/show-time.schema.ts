@@ -1,4 +1,3 @@
-// showtime.model.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document ,Schema as MongooseSchema, Types } from 'mongoose';
 
@@ -10,7 +9,7 @@ enum TimeSlot {
   '09:00 PM' = '21:00',
 }
 @Schema()
-export class Showtime extends Document {
+export class Showtime  {
   @Prop([
     {
       slot: { type: String, enum: Object.values(TimeSlot) },

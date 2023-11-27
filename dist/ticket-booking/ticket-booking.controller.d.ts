@@ -1,12 +1,14 @@
 import { TicketBookingService } from "./ticket-booking.service";
 import { ticketBookingDto } from "./dto/ticketBooking.dto";
 import { ticketBooking } from "./schema/booking.schema";
+import { AuthController } from "src/auth/auth.controller";
 export declare class TicketBookingController {
     private readonly bookingService;
-    constructor(bookingService: TicketBookingService);
+    private readonly authController;
+    constructor(bookingService: TicketBookingService, authController: AuthController);
     bookMovieTicket(req: any, bookingDto: ticketBookingDto, response: any): Promise<any>;
-    getAllBookings(): Promise<ticketBooking[]>;
-    getBookingById(bookingId: string): Promise<ticketBooking>;
-    updateBookingStatus(bookingId: string, status: string): Promise<ticketBooking>;
-    deleteBooking(bookingId: string): Promise<ticketBooking>;
+    getAllBookings(response: any): Promise<any>;
+    getBookingById(req: any, bookingId: string, response: any): Promise<any>;
+    updateBookingStatus(req: any, bookingId: string, status: string, response: any): Promise<ticketBooking>;
+    deleteBooking(req: any, bookingId: string, response: any): Promise<any>;
 }

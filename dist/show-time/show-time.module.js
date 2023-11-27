@@ -8,10 +8,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ShowTimeModule = void 0;
 const common_1 = require("@nestjs/common");
-const show_time_service_1 = require("./show-time.service");
-const show_time_controller_1 = require("./show-time.controller");
 const mongoose_1 = require("@nestjs/mongoose");
 const show_time_schema_1 = require("./schema/show-time.schema");
+const show_time_service_1 = require("./show-time.service");
+const show_time_controller_1 = require("./show-time.controller");
+const redis_module_1 = require("../auth/redis/redis.module");
+const constant_1 = require("./constant/constant");
+const jwt_1 = require("@nestjs/jwt");
+const auth_module_1 = require("../auth/auth.module");
+const auth_controller_1 = require("../auth/auth.controller");
 let ShowTimeModule = class ShowTimeModule {
 };
 exports.ShowTimeModule = ShowTimeModule;
@@ -19,9 +24,16 @@ exports.ShowTimeModule = ShowTimeModule = __decorate([
     (0, common_1.Module)({
         imports: [
             mongoose_1.MongooseModule.forFeature([{ name: show_time_schema_1.Showtime.name, schema: show_time_schema_1.ShowtimeSchema }]),
+            jwt_1.JwtModule.register({
+                global: true,
+                secret: constant_1.jwtConstants.SECRET,
+                signOptions: { expiresIn: '2hr' },
+            }),
+            redis_module_1.RedisModule,
+            auth_module_1.AuthModule
         ],
         controllers: [show_time_controller_1.ShowTimeController],
-        providers: [show_time_service_1.ShowTimeService]
+        providers: [show_time_service_1.ShowTimeService, auth_controller_1.AuthController],
     })
 ], ShowTimeModule);
 //# sourceMappingURL=show-time.module.js.map
