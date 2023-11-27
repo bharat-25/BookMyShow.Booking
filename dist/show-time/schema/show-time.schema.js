@@ -20,7 +20,7 @@ var TimeSlot;
     TimeSlot["06:00 PM"] = "18:00";
     TimeSlot["09:00 PM"] = "21:00";
 })(TimeSlot || (TimeSlot = {}));
-let Showtime = class Showtime extends mongoose_2.Document {
+let Showtime = class Showtime {
 };
 exports.Showtime = Showtime;
 __decorate([

@@ -12,20 +12,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ticketBookingSchema = exports.ticketBooking = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
-let ticketBooking = class ticketBooking extends mongoose_2.Document {
+let ticketBooking = class ticketBooking {
 };
 exports.ticketBooking = ticketBooking;
 __decorate([
     (0, mongoose_1.Prop)({ type: mongoose_2.Schema.Types.ObjectId, ref: 'User' }),
-    __metadata("design:type", String)
+    __metadata("design:type", mongoose_2.Types.ObjectId)
 ], ticketBooking.prototype, "userId", void 0);
 __decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.Schema.Types.ObjectId, ref: 'showTime' }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], ticketBooking.prototype, "showtimeId", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ type: mongoose_2.Schema.Types.ObjectId, ref: 'Movie' }),
-    __metadata("design:type", String)
+    __metadata("design:type", mongoose_2.Types.ObjectId)
 ], ticketBooking.prototype, "movieId", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ type: mongoose_2.Schema.Types.ObjectId, ref: 'Theater' }),
-    __metadata("design:type", String)
+    __metadata("design:type", mongoose_2.Types.ObjectId)
 ], ticketBooking.prototype, "theaterId", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),

@@ -1,16 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document,Schema as MongooseSchema } from 'mongoose';
+import { Document,Schema as MongooseSchema,Types } from 'mongoose';
 
 @Schema()
-export class ticketBooking extends Document {
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
-  userId: string;
+export class ticketBooking {
+  @Prop({ type:MongooseSchema.Types.ObjectId, ref: 'User' })
+  userId:Types.ObjectId 
+  
+  @Prop({ type:MongooseSchema.Types.ObjectId, ref: 'showTime' })
+  showtimeId:Types.ObjectId
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Movie' })
-  movieId: string;
+  movieId:  Types.ObjectId
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Theater' })
-  theaterId: string;
+  @Prop({ type:MongooseSchema.Types.ObjectId, ref: 'Theater' })
+  theaterId: Types.ObjectId
 
   @Prop({ required: true })
   movieSlot: string;

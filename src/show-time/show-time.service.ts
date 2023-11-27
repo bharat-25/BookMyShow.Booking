@@ -2,18 +2,28 @@ import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { Showtime } from './schema/show-time.schema';
 import { InjectModel } from '@nestjs/mongoose';
+import axios from 'axios';
+import { RedisService } from '../auth/redis/redis.service';
 
 @Injectable()
 export class ShowTimeService {
-    constructor(@InjectModel(Showtime.name) private showtimeModel: Model<Showtime>) {}
+    constructor(@InjectModel(Showtime.name) private showtimeModel: Model<Showtime>,
+                                            private readonly redisService: RedisService
+                                            ) {}
+                                            
 
-    async addShowtime(showtime: Showtime): Promise<Showtime> {
+  // private readonly baseUrl = 'http://localhost:3008';
+
+    async addShowtime(showtime: Showtime) {
+     
         const newShowtime = new this.showtimeModel(showtime);
         return newShowtime.save();
       }
 
-      async updateShowtime(id: string, showtime: Showtime): Promise<Showtime | null> {
-        const updatedShowtime = await this.showtimeModel.findByIdAndUpdate(id, showtime, { new: true });
+      async updateShowtime(id: string, showtime: Showtime) {
+        console.log(showtime.date)
+        const updatedShowtime = await this.showtimeModel.findByIdAndUpdate(id, {date:showtime.date});
+        console.log(updatedShowtime)
         return updatedShowtime;
       }
     
@@ -27,4 +37,20 @@ export class ShowTimeService {
         return showtimes;
       }
 
+//       async verifyUser(userEmail){
+//       try {
+//         const GetUser=await this.redisService.redisGet(userEmail); 
+//         if(GetUser){
+//           return true
+//         }
+//       const Axiosresponse = await axios.post(`${this.baseUrl}/users/User-Verify`,{userEmail});
+//       console.log('------->', Axiosresponse.data);
+//       const Isverify=Axiosresponse.data
+//       await this.redisService.redisSet(userEmail, Isverify, 900); 
+//       return Isverify
+//       } catch (error) {
+//         console.error('Error in verifyUser:', error.message);
+//         throw error;
+//   }
+// }
 }
