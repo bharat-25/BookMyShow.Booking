@@ -18,7 +18,6 @@ import { RedisModule } from './auth/redis/redis.module';
       })
      }),
      TicketBookingModule,
-     // MongooseModule.forRoot('mongodb+srv://bharatanand:XLfrrdbmZRqs25hC@cluster0.a5sfuz8.mongodb.net/BookMyShow_ticketBooking'),
      ShowTimeModule,
   ],
   controllers: [AppController],
