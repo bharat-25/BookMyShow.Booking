@@ -29,7 +29,9 @@ let ShowTimeService = class ShowTimeService {
     }
     async updateShowtime(id, showtime) {
         console.log(showtime.date);
-        const updatedShowtime = await this.showtimeModel.findByIdAndUpdate(id, { date: showtime.date });
+        const updatedShowtime = await this.showtimeModel.findByIdAndUpdate(id, {
+            date: showtime.date,
+        });
         console.log(updatedShowtime);
         return updatedShowtime;
     }

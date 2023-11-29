@@ -10,6 +10,16 @@ export class TicketBookingService {
                 @InjectModel(Showtime.name) private showtimeModel: Model<Showtime>
                 ) {}
 
+  /**
+ * Book a movie ticket for a user.
+ * @param {string} userId - The ID of the user making the booking.
+ * @param {string} movieId - The ID of the movie being booked.
+ * @param {string} theaterId - The ID of the theater where the movie is being booked.
+ * @param {string} movieSlot - The time slot for the movie.
+ * @param {string} date - The date of the movie show.
+ * @param {number} totalSeatBooked - The total number of seats being booked.
+ * @returns {Promise<ticketBooking>} - A promise that resolves with the booking details.
+ */
   async bookMovieTicket(userId: string,movieId,theaterId,movieSlot: string,date: string,totalSeatBooked: number): Promise<ticketBooking> {
     const totalAmount=totalSeatBooked*100;
     console.log(userId)
@@ -34,16 +44,33 @@ export class TicketBookingService {
       return createdBooking.save();
   }
 
+
+  /**
+ * Get all bookings.
+ * @returns {Promise<void>} - A promise that resolves with all booking data.
+ */
   async getAllBookings(){
     const allbookingData=await this.ticketbookingModel.find().exec();
     console.log("------------->",allbookingData)
     return allbookingData
   }
 
+
+  /**
+ * Get booking details by ID.
+ * @param {string} bookingId - The ID of the booking to retrieve.
+ * @returns {Promise<ticketBooking>} - A promise that resolves with the booking details.
+ */
   async getBookingById(bookingId: string) {
     return this.ticketbookingModel.findById(bookingId).exec();
   }
 
+/**
+ * Update booking status by ID.
+ * @param {string} bookingId - The ID of the booking to update.
+ * @param {string} status - The new status for the booking.
+ * @returns {Promise<ticketBooking>} - A promise that resolves with the updated booking data.
+ */
   async updateBookingStatus(bookingId: string, status: string): Promise<ticketBooking> {
     return this.ticketbookingModel.findByIdAndUpdate(
       bookingId,
@@ -51,7 +78,11 @@ export class TicketBookingService {
       { new: true },
     ).exec();
   }
-
+/**
+ * Delete a booking by ID.
+ * @param {string} bookingId - The ID of the booking to delete.
+ * @returns {Promise<void>} - A promise that resolves after the booking is deleted.
+ */
   async deleteBooking(bookingId: string){
     return this.ticketbookingModel.findByIdAndDelete(bookingId).exec();
   }

@@ -14,8 +14,6 @@ import {
 import { TicketBookingService } from "./ticket-booking.service";
 import { ticketBookingDto } from "./dto/ticketBooking.dto";
 import { ticketBooking } from "./schema/booking.schema";
-// import { AuthGuard } from '@nestjs/passport';
-// import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from "./guard/auth.guard";
 import { BOOKING_RESPONSE } from "./constants/constant";
 import {ApiTags,ApiBearerAuth} from '@nestjs/swagger'
@@ -26,6 +24,14 @@ export class TicketBookingController {
   constructor(private readonly bookingService: TicketBookingService,
               private readonly authController: AuthController) {}
 
+
+  /**
+ * Book a movie ticket for a user.
+ * @param {Request} req - The Express request object.
+ * @param {ticketBookingDto} bookingDto - The data for booking the ticket.
+ * @param {Response} response - The Express response object.
+ * @returns {Promise<void>} - A promise that resolves after the ticket is booked.
+ */
   @ApiTags('Book Movie Ticket')
   @ApiBearerAuth()
   @Post("bookTicket")
@@ -70,6 +76,12 @@ export class TicketBookingController {
     }
   }
 
+
+  /**
+ * Get all bookings.
+ * @param {Response} response - The Express response object.
+ * @returns {Promise<void>} - A promise that resolves with all booking data.
+ */
   @ApiTags('Get all Booking')
   @Get()
   async getAllBookings(@Res() response){
@@ -89,6 +101,15 @@ export class TicketBookingController {
     }
   }
 
+
+
+/**
+ * Get booking details by ID.
+ * @param {Request} req - The Express request object.
+ * @param {string} bookingId - The ID of the booking to retrieve.
+ * @param {Response} response - The Express response object.
+ * @returns {Promise<void>} - A promise that resolves with the booking details.
+ */
   @ApiTags('Get Booking by ID')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
@@ -119,6 +140,15 @@ export class TicketBookingController {
       });
     }
   }
+
+  /**
+ * Update booking status by ID.
+ * @param {Request} req - The Express request object.
+ * @param {string} bookingId - The ID of the booking to update.
+ * @param {string} status - The new status for the booking.
+ * @param {Response} response - The Express response object.
+ * @returns {Promise<ticketBooking>} - A promise that resolves with the updated booking data.
+ */
   @ApiTags('Update Booking')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
@@ -150,6 +180,14 @@ export class TicketBookingController {
   }
 }
 
+
+/**
+ * Delete a booking by ID.
+ * @param {Request} req - The Express request object.
+ * @param {string} bookingId - The ID of the booking to delete.
+ * @param {Response} response - The Express response object.
+ * @returns {Promise<void>} - A promise that resolves after the booking is deleted.
+ */
   @ApiTags('Delete Booking')
   @ApiBearerAuth()
   @UseGuards(AuthGuard)

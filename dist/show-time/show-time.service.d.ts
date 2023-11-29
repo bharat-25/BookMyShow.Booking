@@ -22,16 +22,14 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Model } from 'mongoose';
-import { Showtime } from './schema/show-time.schema';
-import { RedisService } from '../auth/redis/redis.service';
+import { Model } from "mongoose";
+import { Showtime } from "./schema/show-time.schema";
+import { RedisService } from "../auth/redis/redis.service";
 export declare class ShowTimeService {
     private showtimeModel;
     private readonly redisService;
     constructor(showtimeModel: Model<Showtime>, redisService: RedisService);
-    addShowtime(showtime: Showtime): Promise<import("mongoose").Document<unknown, {}, Showtime> & Showtime & {
-        _id: import("mongoose").Types.ObjectId;
-    }>;
+    addShowtime(showtime: Showtime): Promise<Showtime>;
     updateShowtime(id: string, showtime: Showtime): Promise<import("mongoose").Document<unknown, {}, Showtime> & Showtime & {
         _id: import("mongoose").Types.ObjectId;
     }>;

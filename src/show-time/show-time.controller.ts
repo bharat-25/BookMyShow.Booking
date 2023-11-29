@@ -12,6 +12,15 @@ export class ShowTimeController {
     constructor(private readonly showtimeService: ShowTimeService,
                 private readonly authController: AuthController){}
     
+
+    /**
+ * Add movie slots API endpoint.
+ * @param {Object} req - The request object.
+ * @param {Showtime} showtime - The data to add movie slots.
+ * @param {Object} response - The response object.
+ * @returns {Promise<Object>} - A promise that resolves to a JSON response with the added movie slots.
+ * @throws {Object} - Returns an error response if there's an issue with the request.
+ */
     @ApiTags('Add Movie Slots')
     @UseGuards(AuthGuard)
     @Post('addMovieSlot')
@@ -41,7 +50,15 @@ export class ShowTimeController {
         });
       }
     }
-
+/**
+ * Update movie slots API endpoint.
+ * @param {Object} req - The request object.
+ * @param {string} id - The ID of the movie slots to update.
+ * @param {Object} response - The response object.
+ * @param {Showtime} showtime - The data to update movie slots.
+ * @returns {Promise<Object>} - A promise that resolves to a JSON response with the updated movie slots.
+ * @throws {Object} - Returns an error response if there's an issue with the request.
+ */
     @ApiTags('Update Movie Slots')
     @UseGuards(AuthGuard)
     @Put(':id')
@@ -71,7 +88,16 @@ export class ShowTimeController {
         });
       }
     }
-  
+
+
+/**
+ * Delete movie slots API endpoint.
+ * @param {Object} req - The request object.
+ * @param {string} id - The ID of the movie slots to delete.
+ * @param {Object} response - The response object.
+ * @returns {Promise<Object>} - A promise that resolves to a JSON response indicating the success of the deletion.
+ * @throws {Object} - Returns an error response if there's an issue with the request.
+ */
   @ApiTags('Delete Movie Slots')
     @Delete(':id')
     async deleteShowtime(@Request() req,@Param('id') id: string,@Res() response): Promise<Showtime | null> {
@@ -98,6 +124,15 @@ export class ShowTimeController {
       }
     }
   
+
+  /**
+ * Get movies and theaters API endpoint.
+ * @param {string} movieId - The ID of the movie.
+ * @param {string} theaterId - The ID of the theater.
+ * @param {Object} response - The response object.
+ * @returns {Promise<Object>} - A promise that resolves to a JSON response with the showtimes for the specified movie and theater.
+ * @throws {Object} - Returns an error response if there's an issue with the request.
+ */
     @ApiTags('Get Movies & Theaters')
     @UseGuards(AuthGuard)
     @Get(':movieId/:theaterId')
